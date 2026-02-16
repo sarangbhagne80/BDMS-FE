@@ -110,7 +110,7 @@ export function SupportHelpline() {
             <div>
               <p className="font-semibold text-yellow-900 mb-1">Important Reminder</p>
               <p className="text-yellow-800 text-sm leading-relaxed">
-                While we work hard to connect you with donors, please ensure you're also coordinating with your hospital's blood bank. In critical emergencies, always call 911 or go directly to the nearest emergency room.
+                While we work hard to connect you with donors, please ensure you're also coordinating with your hospital's blood bank. In critical emergencies, always call 108 or go directly to the nearest emergency room.
               </p>
             </div>
           </div>

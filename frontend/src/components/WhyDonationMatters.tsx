@@ -3,7 +3,7 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 
 const reasons = [
   'Blood cannot be manufactured – it can only come from donors',
-  'Every 2 seconds, someone needs blood in the United States',
+  'Every 2 seconds, someone needs blood in the India',
   'A single donation can potentially save up to three lives',
   'Only 3% of age-eligible people donate blood yearly',
   'Blood is essential for surgeries, cancer treatment, chronic illnesses',

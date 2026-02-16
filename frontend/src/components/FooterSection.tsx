@@ -82,7 +82,7 @@ export function FooterSection() {
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-red-500 flex-shrink-0" />
                 <span className="text-sm text-gray-400">
-                  +1 (800) 123-4567
+                  123 456 7890
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -106,7 +106,7 @@ export function FooterSection() {
             <h3 className="text-white font-semibold mb-6 text-lg">Emergency</h3>
             <div className="bg-red-600 rounded-xl p-6 text-center">
               <div className="text-sm text-red-100 mb-2">24/7 Emergency Helpline</div>
-              <div className="text-2xl font-bold text-white mb-4">911</div>
+              <div className="text-2xl font-bold text-white mb-4">108</div>
               <div className="text-xs text-red-100 leading-relaxed">
                 For urgent blood requirements, call our emergency hotline anytime
               </div>

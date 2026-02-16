@@ -1,77 +1,27 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import type { InventoryItem } from '../../pages/InventoryManagement';
 
-interface InventoryItem {
-  id: number;
-  bloodGroup: string;
-  unitsAvailable: number;
-  pricePerUnit: number;
-  status: 'In Stock' | 'Low' | 'Out of Stock';
+// =====================
+// PROPS INTERFACE
+// =====================
+
+interface InventoryTableProps {
+  inventory: InventoryItem[];
+  onUpdate: (id: string, payload: { unitsAvailable: number; pricePerUnit: number }) => Promise<void>;
 }
 
-const mockInventory: InventoryItem[] = [
-  {
-    id: 1,
-    bloodGroup: 'O+',
-    unitsAvailable: 25,
-    pricePerUnit: 3000,
-    status: 'In Stock',
-  },
-  {
-    id: 2,
-    bloodGroup: 'A+',
-    unitsAvailable: 10,
-    pricePerUnit: 2800,
-    status: 'Low',
-  },
-  {
-    id: 3,
-    bloodGroup: 'B+',
-    unitsAvailable: 5,
-    pricePerUnit: 3200,
-    status: 'Low',
-  },
-  {
-    id: 4,
-    bloodGroup: 'AB+',
-    unitsAvailable: 0,
-    pricePerUnit: 3500,
-    status: 'Out of Stock',
-  },
-  {
-    id: 5,
-    bloodGroup: 'O-',
-    unitsAvailable: 15,
-    pricePerUnit: 3300,
-    status: 'In Stock',
-  },
-  {
-    id: 6,
-    bloodGroup: 'A-',
-    unitsAvailable: 8,
-    pricePerUnit: 2900,
-    status: 'Low',
-  },
-  {
-    id: 7,
-    bloodGroup: 'B-',
-    unitsAvailable: 12,
-    pricePerUnit: 3100,
-    status: 'In Stock',
-  },
-  {
-    id: 8,
-    bloodGroup: 'AB-',
-    unitsAvailable: 3,
-    pricePerUnit: 3600,
-    status: 'Low',
-  },
-];
+// =====================
+// COMPONENT
+// =====================
 
-export function InventoryTable() {
-  const [inventory, setInventory] = useState<InventoryItem[]>(mockInventory);
+export function InventoryTable({ inventory, onUpdate }: InventoryTableProps) {
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
   const [formData, setFormData] = useState({ unitsAvailable: 0, pricePerUnit: 0 });
+  const [saving, setSaving] = useState(false);
+
+  // Add safe check for inventory
+  const safeInventory = inventory ?? [];
 
   const handleEdit = (item: InventoryItem) => {
     setEditingItem(item);
@@ -81,30 +31,25 @@ export function InventoryTable() {
     });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!editingItem) return;
 
-    // Update inventory
-    setInventory(
-      inventory.map((item) =>
-        item.id === editingItem.id
-          ? {
-              ...item,
-              unitsAvailable: formData.unitsAvailable,
-              pricePerUnit: formData.pricePerUnit,
-              status:
-                formData.unitsAvailable === 0
-                  ? 'Out of Stock'
-                  : formData.unitsAvailable < 10
-                  ? 'Low'
-                  : 'In Stock',
-            }
-          : item
-      )
-    );
+    try {
+      setSaving(true);
+      
+      // Call parent's onUpdate function
+      await onUpdate(editingItem._id, {
+        unitsAvailable: formData.unitsAvailable,
+        pricePerUnit: formData.pricePerUnit,
+      });
 
-    // Close modal
-    setEditingItem(null);
+      // Close modal on success
+      setEditingItem(null);
+    } catch (error) {
+      console.error('Save failed:', error);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleCancel = () => {
@@ -112,7 +57,14 @@ export function InventoryTable() {
     setFormData({ unitsAvailable: 0, pricePerUnit: 0 });
   };
 
-  const getStatusBadge = (status: string) => {
+  const getStatus = (units: number): 'In Stock' | 'Low' | 'Out of Stock' => {
+    if (units === 0) return 'Out of Stock';
+    if (units < 10) return 'Low';
+    return 'In Stock';
+  };
+
+  const getStatusBadge = (units: number) => {
+    const status = getStatus(units);
     if (status === 'In Stock') {
       return 'bg-green-100 text-green-700';
     } else if (status === 'Low') {
@@ -137,30 +89,38 @@ export function InventoryTable() {
             </tr>
           </thead>
           <tbody>
-            {inventory.map((item) => (
-              <tr key={item.id} className="border-b border-gray-200 hover:bg-gray-50">
-                <td className="p-4 font-medium text-gray-900">{item.bloodGroup}</td>
-                <td className="p-4 text-gray-700">{item.unitsAvailable}</td>
-                <td className="p-4 text-gray-700">₹{item.pricePerUnit.toLocaleString()}</td>
-                <td className="p-4">
-                  <span
-                    className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusBadge(
-                      item.status
-                    )}`}
-                  >
-                    {item.status}
-                  </span>
-                </td>
-                <td className="p-4">
-                  <button
-                    onClick={() => handleEdit(item)}
-                    className="text-gray-700 hover:text-gray-900 font-medium"
-                  >
-                    Edit
-                  </button>
+            {safeInventory.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="p-8 text-center text-gray-500">
+                  No inventory data available
                 </td>
               </tr>
-            ))}
+            ) : (
+              safeInventory.map((item) => (
+                <tr key={item._id} className="border-b border-gray-200 hover:bg-gray-50">
+                  <td className="p-4 font-medium text-gray-900">{item.bloodGroup}</td>
+                  <td className="p-4 text-gray-700">{item.unitsAvailable}</td>
+                  <td className="p-4 text-gray-700">₹{item.pricePerUnit.toLocaleString()}</td>
+                  <td className="p-4">
+                    <span
+                      className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusBadge(
+                        item.unitsAvailable
+                      )}`}
+                    >
+                      {getStatus(item.unitsAvailable)}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <button
+                      onClick={() => handleEdit(item)}
+                      className="text-gray-700 hover:text-gray-900 font-medium"
+                    >
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -175,6 +135,7 @@ export function InventoryTable() {
               <button
                 onClick={handleCancel}
                 className="text-gray-500 hover:text-gray-700"
+                disabled={saving}
               >
                 <X size={24} />
               </button>
@@ -208,6 +169,7 @@ export function InventoryTable() {
                     setFormData({ ...formData, unitsAvailable: parseInt(e.target.value) || 0 })
                   }
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                  disabled={saving}
                 />
               </div>
 
@@ -224,6 +186,7 @@ export function InventoryTable() {
                     setFormData({ ...formData, pricePerUnit: parseInt(e.target.value) || 0 })
                   }
                   className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent"
+                  disabled={saving}
                 />
               </div>
             </div>
@@ -233,14 +196,16 @@ export function InventoryTable() {
               <button
                 onClick={handleCancel}
                 className="flex-1 px-6 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition"
+                disabled={saving}
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="flex-1 px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                className="flex-1 px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+                disabled={saving}
               >
-                Save Changes
+                {saving ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </div>

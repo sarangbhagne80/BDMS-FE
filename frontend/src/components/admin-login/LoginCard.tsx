@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import api from '../../services/api';
 
 export function LoginCard() {
   const [formData, setFormData] = useState({
@@ -21,13 +22,10 @@ export function LoginCard() {
     e.preventDefault();
 
     try{
-      const res = await axios.post(
-        "http://localhost:5000/api/admin/login",
-        formData
-      );
+      const res = await api.post("/admin/login", formData);
 
       //save token to local storage
-      localStorage.setItem("token", res.data.token);
+      sessionStorage.setItem("token", res.data.token);
 
       //redirect to dashboard
       navigate("/admin/dashboard");

@@ -32,7 +32,7 @@ const highlights = [
   },
 ];
 
-function useCountUp(end: number, duration: number = 2000, startCounting: boolean = false) {
+function useCountUp(end: number, duration: number = 3000, startCounting: boolean = false) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ function HighlightCard({ highlight, index }: { highlight: typeof highlights[0]; 
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const Icon = highlight.icon;
-  const count = useCountUp(highlight.number, 2000, isVisible);
+  const count = useCountUp(highlight.number, 3000, isVisible);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -78,7 +78,7 @@ function HighlightCard({ highlight, index }: { highlight: typeof highlights[0]; 
           observer.disconnect();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.3 }
     );
 
     if (cardRef.current) {

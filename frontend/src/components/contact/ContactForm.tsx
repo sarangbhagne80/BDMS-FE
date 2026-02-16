@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Phone, Send } from 'lucide-react';
+import api from '../../services/api';
 
 export function ContactForm() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export function ContactForm() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await api.post('/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

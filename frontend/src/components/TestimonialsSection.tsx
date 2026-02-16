@@ -3,15 +3,15 @@ import { Quote } from 'lucide-react';
 const testimonials = [
   {
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah',
-    quote: 'Donating blood has been one of the most rewarding experiences. Knowing that I can help save lives with such a simple act is incredibly fulfilling.',
+    quote: 'User-friendly UI to register as a Donor.',
     name: 'Sarang Bhagne',
     role: 'Regular Donor since 2020',
   },
   {
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Michael',
-    quote: 'The staff is professional and caring. The entire process is smooth and comfortable. I encourage everyone eligible to become a donor.',
+    quote: "My friend got unfortunatelly got into an accident, urgent blood was required. I've came across this site and ordered blood in critical case, and the they delivered it on time. Thanks a lot.",
     name: 'Abhishek Upadhyay',
-    role: 'Donor & Volunteer',
+    role: 'Student',
   },
   {
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emily',

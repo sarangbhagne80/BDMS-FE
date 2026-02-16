@@ -3,6 +3,7 @@ import { TopBar } from '../components/dashboard/TopBar';
 import { StatsBoxes } from '../components/dashboard/StatsBoxes';
 import { RecentRequestsTable } from '../components/dashboard/RecentRequestsTable';
 
+
 export default function AdminDashboard() {
   return (
     <div className="flex h-screen bg-white">

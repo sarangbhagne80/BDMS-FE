@@ -11,7 +11,7 @@ export function EmergencyNoticeStrip() {
             </div>
             <div>
               <p className="text-gray-900 font-semibold">Life-Threatening Emergency?</p>
-              <p className="text-sm text-gray-600">For critical situations, please call 911 or visit the nearest emergency room immediately.</p>
+              <p className="text-sm text-gray-600">For critical situations, please call 108 or visit the nearest emergency room immediately.</p>
             </div>
           </div>
           <a 
@@ -19,7 +19,7 @@ export function EmergencyNoticeStrip() {
             className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition shadow-md"
           >
             <Phone className="w-5 h-5" />
-            Emergency: 911
+            Emergency: 108
           </a>
         </div>
       </div>

@@ -19,7 +19,7 @@ const actions = [
     icon: ClipboardCheck,
     title: 'Eligibility',
     description: 'Check if you can donate',
-    path: '/why-donate',
+    path: '/become-donor',
   },
   {
     icon: Phone,

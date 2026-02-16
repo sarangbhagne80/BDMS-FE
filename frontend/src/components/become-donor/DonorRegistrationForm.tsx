@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../services/api';
 
 export function DonorRegistrationForm() {
   const navigate = useNavigate();
@@ -19,12 +20,13 @@ export function DonorRegistrationForm() {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+  const today = new Date().toISOString().split("T")[0];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/donors', {
+      const response = await api.post('/donors', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -198,7 +200,7 @@ export function DonorRegistrationForm() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
               />
             </div>
-
+          
             {/* Last Donation Date */}
             <div>
               <label htmlFor="lastDonation" className="block text-sm font-semibold text-gray-900 mb-2">
@@ -210,6 +212,7 @@ export function DonorRegistrationForm() {
                 name="lastDonation"
                 value={formData.lastDonation}
                 onChange={handleChange}
+                max={today}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
               />
             </div>

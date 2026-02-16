@@ -19,7 +19,7 @@ export function EmergencyNeedHighlight() {
             </p>
             
             <p>
-              <span className="font-semibold text-gray-900">38,000 blood donations</span> are needed every day in the United States. Only <span className="font-semibold text-gray-900">3% of eligible Americans</span> donate blood annually, yet <span className="font-semibold text-gray-900">1 in 7 people</span> entering a hospital will need blood.
+              <span className="font-semibold text-gray-900">38,000 blood donations</span> are needed every day in the India. Only <span className="font-semibold text-gray-900">3% of eligible Indians</span> donate blood annually, yet <span className="font-semibold text-gray-900">1 in 7 people</span> entering a hospital will need blood.
             </p>
             
             <p className="text-xl font-semibold text-red-600 pt-4">

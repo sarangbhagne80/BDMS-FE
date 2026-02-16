@@ -12,7 +12,7 @@ export function WhyBloodIsNeeded() {
           
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p>
-              <span className="font-semibold text-gray-900">Every 2 seconds</span>, someone in the United States needs blood. Despite advances in medicine, blood cannot be manufactured—it can only come from generous donors like you.
+              <span className="font-semibold text-gray-900">Every 2 seconds</span>, someone in the India needs blood. Despite advances in medicine, blood cannot be manufactured—it can only come from generous donors like you.
             </p>
             
             <p>
