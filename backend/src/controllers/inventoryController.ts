@@ -4,10 +4,12 @@ import Inventory from "../models/Inventory";
 /*
 GET all inventory
 */
+
 export const getInventory = async (_req: Request, res: Response) => {
+  
   try {
     const data = await Inventory.find().sort({ bloodGroup: 1 });
-
+    
     const totalUnits = data.reduce((sum, item) => sum + item.unitsAvailable, 0);
     const lowStockCount = data.filter((i) => i.unitsAvailable < 5).length;
 
@@ -40,3 +42,4 @@ export const updateInventory = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Update failed" });
   }
 };
+

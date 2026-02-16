@@ -99,3 +99,62 @@ export const getRecentRequests = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// =====================
+// CHANGE PASSWORD
+// POST /api/admin/change-password
+// =====================
+
+export const changePassword = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    // 1. Validate input
+    if (!currentPassword || !newPassword) {
+      res.status(400).json({
+        success: false,
+        message: "All fields are required"
+      });
+      return;
+    }
+
+    // 2. Get logged-in admin (from protect middleware)
+    const admin = await Admin.findById(req.admin?.id).select('+password');
+
+    if (!admin) {
+      res.status(404).json({
+        success: false,
+        message: "Admin not found"
+      });
+      return;
+    }
+
+    // 3. Check current password
+    const isMatch = await admin.comparePassword(currentPassword);
+
+    if (!isMatch) {
+      res.status(401).json({
+        success: false,
+        message: "Current password is incorrect"
+      });
+      return;
+    }
+
+    // 4. Update password
+    admin.password = newPassword;
+
+    await admin.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password updated successfully"
+    });
+
+  } catch (error) {
+    console.error("Change password error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
+  }
+};

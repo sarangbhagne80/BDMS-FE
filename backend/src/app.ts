@@ -7,6 +7,10 @@ import adminRoutes from './routes/adminRoutes';
 import donorRoutes from './routes/donorRoutes';
 import requestRoutes from './routes/requestRoutes';
 import contactRoutes from './routes/contactRoutes';
+import InventoryItem from './routes/inventoryRoutes';
+import { changePassword } from './controllers/adminController';
+  
+
 
 // Load environment variables
 dotenv.config();
@@ -46,8 +50,9 @@ app.get('/', (_req: Request, res: Response) => {
 // API Routes
 app.use('/api/admin', adminRoutes);      // Admin authentication
 app.use('/api/donors', donorRoutes);     // Donor management
-app.use('/api/requests', requestRoutes); // Blood requests
+app.use('/api/requests', requestRoutes);
 app.use('/api/contact', contactRoutes);  // Contact messages
+app.use('/api/inventory', InventoryItem); // Inventory management
 
 // =====================
 // ERROR HANDLING
