@@ -1,145 +1,73 @@
-#Blood Bank Management System (MERN + TypeScript)
-A full-stack Blood Bank Management System built with the MERN stack.
-*Tech Stack*
-Frontend: React + Vite + TypeScript + Tailwind
-Backend: Node.js + Express + TypeScript
-Database: MongoDB (Atlas)
-Auth: JWT + bcrypt
+# React + TypeScript + Vite
 
-#System Requirements
-Install:
-- Node.js (LTS)
-- npm (comes with Node)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Verify:
-node -v
-npm -v
+Currently, two official plugins are available:
 
-#Project Structure
-Blood-Bank-Management-System/
-│
-├── frontend/   → React client (Vite)
-├── backend/    → Express API (TypeScript)
-└── README.md
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-⚡ Quick Start (Recommended)
+## React Compiler
 
-#Open 2 terminals:
-Terminal 1 – Backend
-cd backend
-npm install
-npm run dev
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Terminal 2 – Frontend
-cd frontend
-npm install
-npm run dev
+## Expanding the ESLint configuration
 
-#FRONTEND SETUP (React + Vite)
-*Install dependencies
-cd frontend
-npm install
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-#Run development server
-npm run dev
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-#Build for production
-npm run build
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-#Preview production build
-npm run preview
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-#Install additional packages (if needed)
-*Axios (API calls)
-npm install axios
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-=========================
-🚀 BACKEND SETUP (Node + Express + TS)
-=========================
-First time initialization
-cd backend
-npm init -y
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-#Install production dependencies
-npm install express cors dotenv mongoose jsonwebtoken bcryptjs
-
-#Install development dependencies
-npm install -D typescript ts-node-dev \
-@types/node @types/express @types/cors \
-@types/bcryptjs @types/jsonwebtoken
-
-#Setup TypeScript (first time)
-npx tsc --init
-
-#Check config:
-npx tsc --showConfig
-
-▶ Backend Scripts
-*Add this inside backend/package.json
-"scripts": {
-  "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-  "build": "tsc",
-  "start": "node dist/server.js",
-  "clean": "rm -rf dist"
-}
-
-#Run backend
-*Development (auto reload)
-npm run dev
-
-#Production
-npm run build
-npm start
-
-=========================
-🔐 Environment Variables
-=========================
-🔐 Environment Variables
-- Backend (.env)
-
-*Create:
-backend/.env
-
-Example:
-PORT=5000
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/bloodbank
-JWT_SECRET=your_secret_key
-NODE_ENV=development
-
-
-Frontend (.env)
-*Create:
-frontend/.env
-VITE_API_URL=http://localhost:5000/api
-
-#Use in code:
-import.meta.env.VITE_API_URL
-
-🧪 API Testing
-Example:
-#Register donor
-POST /api/donors
-
-#Admin login
-POST /api/admin/login
-
-🧹 Useful Commands
-#Clear npm cache
-npm cache clean --force
-
-Reinstall packages
-rm -rf node_modules package-lock.json
-npm install
-
-✅ Features
-- Donor registration
-- Blood request system
-- Contact form
-- Admin dashboard
-- JWT authentication
-- Protected routes
-- MongoDB storage
-
-👨‍💻 Author
-*Sheren
-Graphic Designer & Developer
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
